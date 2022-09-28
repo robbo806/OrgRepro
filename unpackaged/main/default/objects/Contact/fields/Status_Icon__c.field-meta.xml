@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Icon__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+RecordType.Name = &quot;Client Contact&quot;,
+CASE(seven20__Client_Contact_Status__c ,
+
+&quot;Active&quot;,
+IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DT&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZWh&quot;, &quot;Active&quot;,25,151),
+
+&quot;DNU&quot;,
+IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DU&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZWm&quot;, &quot;DNU&quot;,25,151),
+NULL
+),
+
+IF(RecordType.Name = &quot;Candidate&quot;,
+CASE( seven20__Candidate_Status__c ,
+
+&quot;Unqualified&quot;, IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DJ&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZWS&quot;, &quot;Unqualified&quot;, 25,151),
+
+&quot;Qualified&quot;, IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DK&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZSq&quot;, &quot;Qualified&quot;, 25,151),
+
+&quot;Active&quot;, IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DT&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZWh&quot;,&quot;Active&quot;, 25,151),
+
+&quot;Interview&quot;, IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DB&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZW3&quot;, &quot;Interview&quot;, 25,151),
+
+&quot;Placed&quot;, IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DD&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZWI&quot;, &quot;Placed&quot;, 25,151),
+
+&quot;DNU&quot;, IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=0688d000007r5DU&amp;operationContext=CHATTER&amp;contentId=05T8d00000MmZWm&quot;, &quot;DNU&quot;, 25,151),
+NULL
+),
+NULL
+)
+)</formula>
+    <label>Status Icon</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

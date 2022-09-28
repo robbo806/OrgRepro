@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>AllAccounts</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.PHONE1</columns>
+    <columns>ACCOUNT.URL</columns>
+    <columns>seven20__Status__c</columns>
+    <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Everything</filterScope>
-    <label>All Accounts</label>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>notEqual</operation>
+        <value>Candidate Pool</value>
+    </filters>
+    <label>All Companies</label>
 </ListView>
