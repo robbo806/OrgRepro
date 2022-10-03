@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Navigate</name>
         <label>Navigate</label>
-        <locationX>1858</locationX>
+        <locationX>1969</locationX>
         <locationY>957</locationY>
         <actionName>c:navigateToRecord</actionName>
         <actionType>component</actionType>
@@ -31,7 +31,7 @@
     <actionCalls>
         <name>Toast</name>
         <label>Toast</label>
-        <locationX>1727</locationX>
+        <locationX>1847</locationX>
         <locationY>957</locationY>
         <actionName>c:showToast</actionName>
         <actionType>component</actionType>
@@ -43,6 +43,34 @@
             <name>message</name>
             <value>
                 <stringValue>Placement Created</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <stringValue>Success</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value>
+                <stringValue>success</stringValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Toast_0</name>
+        <label>Toast</label>
+        <locationX>1042</locationX>
+        <locationY>721</locationY>
+        <actionName>c:showToast</actionName>
+        <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Job Created</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -79,8 +107,8 @@
     <assignments>
         <name>Assign_Job_Id1</name>
         <label>Assign Job Id</label>
-        <locationX>885</locationX>
-        <locationY>752</locationY>
+        <locationX>884</locationX>
+        <locationY>855</locationY>
         <assignmentItems>
             <assignToReference>vJobId</assignToReference>
             <operator>Assign</operator>
@@ -92,6 +120,31 @@
             <targetReference>Placement_Details</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>Create_Placement1</name>
+        <label>Create Placement</label>
+        <locationX>875</locationX>
+        <locationY>726</locationY>
+        <defaultConnector>
+            <targetReference>Toast_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CreatePlacement.value</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Job_Id1</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Job_Found</name>
         <label>Job Found</label>
@@ -177,7 +230,7 @@
         <inputAssignments>
             <field>seven20__Stage__c</field>
             <value>
-                <stringValue>Placement</stringValue>
+                <stringValue>Shortlist</stringValue>
             </value>
         </inputAssignments>
         <object>seven20__Application__c</object>
@@ -186,10 +239,10 @@
     <recordCreates>
         <name>Create_job</name>
         <label>Create job</label>
-        <locationX>884</locationX>
-        <locationY>617</locationY>
+        <locationX>882</locationX>
+        <locationY>588</locationY>
         <connector>
-            <targetReference>Assign_Job_Id1</targetReference>
+            <targetReference>Create_Placement1</targetReference>
         </connector>
         <faultConnector>
             <targetReference>error</targetReference>
@@ -338,12 +391,36 @@
         </connector>
     </recordRollbacks>
     <recordUpdates>
-        <name>Update_Job</name>
-        <label>Update Job</label>
-        <locationX>1560</locationX>
+        <name>Update_Application</name>
+        <label>Update Application</label>
+        <locationX>1701</locationX>
         <locationY>957</locationY>
         <connector>
             <targetReference>Toast</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Create_Application</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>seven20__Stage__c</field>
+            <value>
+                <stringValue>Placement</stringValue>
+            </value>
+        </inputAssignments>
+        <object>seven20__Application__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Job</name>
+        <label>Update Job</label>
+        <locationX>1546</locationX>
+        <locationY>957</locationY>
+        <connector>
+            <targetReference>Update_Application</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -370,8 +447,8 @@
     <screens>
         <name>error</name>
         <label>error</label>
-        <locationX>1033</locationX>
-        <locationY>616</locationY>
+        <locationX>1039</locationX>
+        <locationY>588</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -645,7 +722,7 @@
         <name>Job_Details1</name>
         <label>Job Details</label>
         <locationX>882</locationX>
-        <locationY>487</locationY>
+        <locationY>451</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -664,6 +741,32 @@
                     <fieldText>Job Name</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>CreatePlacement</name>
+                    <extensionName>flowruntime:toggle</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Create Placement</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleActive</name>
+                        <value>
+                            <stringValue>Yes</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleInactive</name>
+                        <value>
+                            <stringValue>No</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <inputParameters>
                     <name>width</name>
