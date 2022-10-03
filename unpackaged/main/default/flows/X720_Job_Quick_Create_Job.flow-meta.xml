@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Navigate</name>
+        <label>Navigate</label>
+        <locationX>1858</locationX>
+        <locationY>957</locationY>
+        <actionName>c:navigateToRecord</actionName>
+        <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>sObject</name>
+            <value>
+                <stringValue>seven20__Placement__c</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>Create_Placement</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mode</name>
+            <value>
+                <stringValue>View</stringValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Toast</name>
+        <label>Toast</label>
+        <locationX>1727</locationX>
+        <locationY>957</locationY>
+        <actionName>c:showToast</actionName>
+        <actionType>component</actionType>
+        <connector>
+            <targetReference>Navigate</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Placement Created</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <stringValue>Success</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value>
+                <stringValue>success</stringValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
     <apiVersion>55.0</apiVersion>
     <assignments>
         <name>Assign_Job_Id</name>
@@ -85,6 +144,12 @@
         <label>Create Application</label>
         <locationX>1203</locationX>
         <locationY>957</locationY>
+        <connector>
+            <targetReference>Create_Placement</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Roll_back_records</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>seven20__Account__c</field>
             <value>
@@ -95,6 +160,12 @@
             <field>seven20__Candidate__c</field>
             <value>
                 <elementReference>Candidate.recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Job__c</field>
+            <value>
+                <elementReference>vJobId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -132,7 +203,7 @@
         <inputAssignments>
             <field>RecordTypeId</field>
             <value>
-                <stringValue>0128d000000xV5nAAE</stringValue>
+                <stringValue>0128d000000xV5rAAE</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -162,6 +233,80 @@
         <object>seven20__Job__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>Create_Placement</name>
+        <label>Create Placement</label>
+        <locationX>1388</locationX>
+        <locationY>957</locationY>
+        <connector>
+            <targetReference>Update_Job</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Roll_back_records</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <stringValue>0128d000000xV5uAAE</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Account__c</field>
+            <value>
+                <elementReference>Get_Job.seven20__Account__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Application__c</field>
+            <value>
+                <elementReference>Create_Application</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Candidate__c</field>
+            <value>
+                <elementReference>Candidate.recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Charge_Rate__c</field>
+            <value>
+                <elementReference>Charge_Rate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__End_Date__c</field>
+            <value>
+                <elementReference>End_Date</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Job__c</field>
+            <value>
+                <elementReference>vJobId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Pay_Rate__c</field>
+            <value>
+                <elementReference>Pay_Rate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Placement_Status__c</field>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Start_Date__c</field>
+            <value>
+                <elementReference>Start_Date</elementReference>
+            </value>
+        </inputAssignments>
+        <object>seven20__Placement__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <recordLookups>
         <name>Get_Job</name>
         <label>Get Job</label>
@@ -183,6 +328,45 @@
         <object>seven20__Job__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordRollbacks>
+        <name>Roll_back_records</name>
+        <label>Roll back records</label>
+        <locationX>1295</locationX>
+        <locationY>776</locationY>
+        <connector>
+            <targetReference>error_0_0_0</targetReference>
+        </connector>
+    </recordRollbacks>
+    <recordUpdates>
+        <name>Update_Job</name>
+        <label>Update Job</label>
+        <locationX>1560</locationX>
+        <locationY>957</locationY>
+        <connector>
+            <targetReference>Toast</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>vJobId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>seven20__Job_Closed__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>seven20__Status__c</field>
+            <value>
+                <stringValue>Placed</stringValue>
+            </value>
+        </inputAssignments>
+        <object>seven20__Job__c</object>
+    </recordUpdates>
     <screens>
         <name>error</name>
         <label>error</label>
@@ -223,6 +407,61 @@
             </fields>
             <fields>
                 <name>error_Section1_Column3</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>error_0_0_0</name>
+        <label>error</label>
+        <locationX>1295</locationX>
+        <locationY>638</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>error_0_0_0_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>error_0_0_0_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>error_0_0_0_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>error_0_0</name>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;u style=&quot;font-size: 20px;&quot;&gt;An Error Occurred&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;An Issue occurred when creating the Job.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Please give this detail to your admin.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(215, 36, 36);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>error_0_0_0_Section1_Column3</name>
                 <fieldType>Region</fieldType>
                 <inputParameters>
                     <name>width</name>
@@ -600,7 +839,7 @@
             <targetReference>Job_Details</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>recordId</name>
         <dataType>String</dataType>
