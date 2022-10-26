@@ -36,6 +36,13 @@
                 <elementReference>Job.recordId</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>soPlacement.seven20__Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Job_Details.seven20__Account__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Assign_To_Collection</targetReference>
         </connector>
@@ -83,6 +90,27 @@
         <locationY>408</locationY>
         <inputReference>socPlacements</inputReference>
     </recordCreates>
+    <recordLookups>
+        <name>Get_Job_Details</name>
+        <label>Get Job Details</label>
+        <locationX>897</locationX>
+        <locationY>211</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Through_Selected_Candidates</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Job.recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>seven20__Job__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <name>Input</name>
         <label>Input</label>
@@ -92,7 +120,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Loop_Through_Selected_Candidates</targetReference>
+            <targetReference>Get_Job_Details</targetReference>
         </connector>
         <fields>
             <name>Job</name>
